@@ -69,11 +69,10 @@ let isUserCreated = false;
 $userName.focus();
 
 socket = io("http://localhost:3000");
+
 userSocket = io("http://localhost:3000/user", {
   auth: { token: "test" },
 });
-
-socket.on("connect", async () => {});
 
 socket.on("disconnect", () => {
   socket.emit("removeUser", socket.id);
