@@ -16,7 +16,7 @@ const $userlist = document.getElementById("userlist");
 const $passCheck = document.getElementById("passCheck");
 const $emojiBoard = document.getElementById("emoji-board");
 const $currentRoom = document.getElementById("mess-board2");
-password;
+let password;
 $roomId.value = "General";
 $roomIn.value = "General";
 let socket;
