@@ -69,7 +69,6 @@ let isUserCreated = false;
 $userName.focus();
 
 socket = io("http://localhost:3000");
-
 userSocket = io("http://localhost:3000/user", {
   auth: { token: "test" },
 });
@@ -124,11 +123,9 @@ function uppdateUsers(users) {
           $currentRoom.textContent = element.name;
           $roomId.value = element.id;
           joinRoom(element.name);
-    
         });
       }
       $a.textContent = linkText;
-
       $userlist.append($div);
       $div.append($a);
       $a.style.fontWeight = weight;
@@ -163,7 +160,6 @@ socket.on("deletedRoomsToClient", (removeObject) => {
 });
 
 ///////////////////////////MESSAGES
-
 function updateMessages(messages) {
   let name;
   let room;
@@ -191,31 +187,33 @@ emojis.forEach((emoji) => {
     $messIn.value += $emoji.textContent;
   });
 });
+
 let cancel = false;
 $messIn.addEventListener("keydown", (e) => {
   if (cancel) return;
   else {
     usertyping();
-
     cancel = true;
     setTimeout(() => {
       cancel = false;
     }, 1000);
   }
 });
+
 function usertyping() {
   socket.emit("typingToServer", activeUser, $roomIn.value);
 }
+
 socket.on("typingToClient", (user) => {
   const $div = document.createElement("div");
   $div.textContent = `${user} ...skriver`;
   $div.style.color = "#aaaaaa";
   $messBoard.append($div);
-
   setTimeout(() => {
     $div.remove();
   }, 1000);
 });
+
 function showMessage(message) {
   let r = Math.round(Math.random() * 255) - 100;
   let g = Math.round(Math.random() * 255) - 100;
@@ -300,7 +298,6 @@ function updateRooms(rooms) {
           }
         });
       }
-
       if (i > 0) {
         const $deleteRoom = document.createElement("a");
         $deleteRoom.href = "#";
@@ -333,6 +330,7 @@ function updateRooms(rooms) {
     if (error) return;
   }
 }
+
 let passworsSet = false;
 $createRoomBut.addEventListener("click", () => {
   if ($passCheck.checked) {
