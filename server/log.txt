@@ -1,0 +1,5 @@
+USER: 'Anonymouse', MESSAGE: 'asasd', ROOM: 'Room 1' DATE: 'Onsdag 29 juni 2022 Kl 15:45:30'
+USER: 'asdasd', MESSAGE: 'asasd', ROOM: 'Room 1' DATE: 'Onsdag 29 juni 2022 Kl 15:45:32'
+USER: 'asdasd', MESSAGE: 'asdaas', ROOM: 'Room 1' DATE: 'Onsdag 29 juni 2022 Kl 15:45:37'
+USER: 'Anonymouse', MESSAGE: 'adasd', ROOM: 'Room 2' DATE: 'Onsdag 29 juni 2022 Kl 15:46:02'
+USER: 'asdasd', MESSAGE: 'asadasd', ROOM: 'Room 2' DATE: 'Onsdag 29 juni 2022 Kl 15:46:05'
