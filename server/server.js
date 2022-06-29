@@ -1,10 +1,7 @@
 const sqlite3 = require("sqlite3").verbose();
-const express = require("express");
 const timeStamp = require("./utils/timeStamp");
-const app = express();
 const { createServer } = require("http");
 const { Server } = require("socket.io");
-const { instrument } = require("@socket.io/admin-ui");
 const httpServer = createServer();
 const db = require("./database.js");
 const fs = require("fs");
@@ -96,7 +93,6 @@ async function addUser(userId, userName) {
 }
 
 async function addRoom(userId, roomName, password) {
-  //console.log(password);
   const query = `
   ${insertRoom} (name, password) 
   VALUES(?, ?)`;
@@ -104,11 +100,13 @@ async function addRoom(userId, roomName, password) {
   const result = await initTable(fetchRooms);
   return result;
 }
+
 async function getRooms() {
   const query = fetchRooms;
   const result = await initTable(query);
   return result;
 }
+
 io.on("connection", (socket) => {
   socket.use(([event, ...args], next) => {
     if (event === "sendToServer") {
@@ -150,12 +148,13 @@ io.on("connection", (socket) => {
     message = `${name}: ${message}`;
     socket.to(room).emit("sendToClient", message);
   });
+
   socket.on("getMessages", (room) => {
     let dbMessages = getMessages(room);
     dbMessages.then(function (result) {
-      //console.log(result);
     });
   });
+
   socket.on("typingToServer", (user, room) => {
     socket.to(room).emit("typingToClient", user);
   });
@@ -180,7 +179,6 @@ io.on("connection", (socket) => {
 
   socket.on("sendRoomToServer", (userId, roomName, password) => {
     if (password === undefined) password = null;
-    //console.log(password);
     let dbRooms = addRoom(userId, roomName, password);
     dbRooms.then(function (result) {
       const users = result;
@@ -200,20 +198,12 @@ io.on("connection", (socket) => {
 
   socket.on("joinRoom", (room, name, callback) => {
     const currentRooms = Array.from(socket.rooms);
-    //console.log(currentRooms[1]);
     socket.leave(currentRooms[1]);
     socket.join(room);
-
-    
     let dbMessages = getMessages(room);
     dbMessages.then(function (result) {
       const messages = result;
-      //console.log(result);
       socket.emit("sendMessagesToClient", messages);
-      /*
-      if (name === null) callback(`Joined ${room}`);
-      else callback(`Send direct message to ${name}`);
-      */
     });
   });
 
@@ -223,6 +213,7 @@ io.on("connection", (socket) => {
       socket.emit("sendRoomsToClient", result);
       socket.broadcast.emit("sendRoomsToClient", result);
     });
+    
     let dbMessages = deleteMessages(roomName);
     dbMessages.then(function (result) {
       const removed = {
@@ -244,11 +235,6 @@ io.on("connection", (socket) => {
       socket.broadcast.emit("sendUserToClient", users);
     });
   });
-  //socket.on("ping", (i) => console.log(i));
-});
-
-instrument(io, {
-  auth: false,
 });
 
 io.listen(port);

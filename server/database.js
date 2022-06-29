@@ -1,6 +1,5 @@
 const sqlite3 = require("sqlite3").verbose();
 const fs = require("fs");
-const md5 = require("md5");
 const dbFile = "./data/chat_db.db";
 const exists = fs.existsSync(dbFile);
 const db = new sqlite3.Database(dbFile, (error) => {
@@ -19,8 +18,7 @@ const db = new sqlite3.Database(dbFile, (error) => {
   `;
   //if (!exists) {
   db.run(messStmt, (error) => {
-    if (error) {
-    }
+    if (error) {}
   });
   /////USERS/////////////////////////////////////////
   const usersStmt = `CREATE TABLE users (
@@ -30,10 +28,8 @@ const db = new sqlite3.Database(dbFile, (error) => {
     room VARCHAR (255)
   )
   `;
-
   db.run(usersStmt, (error) => {
-    if (error) {
-    }
+    if (error) {}
   });
   /////ROOMS/////////////////////////////////////////
   const roomStmt = `CREATE TABLE room (
@@ -44,8 +40,7 @@ const db = new sqlite3.Database(dbFile, (error) => {
   `;
 
   db.run(roomStmt, (error) => {
-    if (error) {
-    } else {
+    if (error) {} else {
       const insertRoom = `INSERT INTO room (
         name
         ) VALUES (?)`;

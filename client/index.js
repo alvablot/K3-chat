@@ -99,7 +99,6 @@ function removeUser(userId) {
 
 function uppdateUsers(users) {
   activeUsers = users;
-  //console.log(users);
   let linkText;
   try {
     $userlist.innerHTML = "";
@@ -126,7 +125,7 @@ function uppdateUsers(users) {
           $currentRoom.textContent = element.name;
           $roomId.value = element.id;
           joinRoom(element.name);
-          console.log(element.name);
+    
         });
       }
       $a.textContent = linkText;
@@ -202,14 +201,13 @@ $messIn.addEventListener("keydown", (e) => {
     cancel = true;
     setTimeout(() => {
       cancel = false;
-    }, 500);
+    }, 1000);
   }
 });
 function usertyping() {
   socket.emit("typingToServer", activeUser, $roomIn.value);
 }
 socket.on("typingToClient", (user) => {
-  console.log(user);
   const $div = document.createElement("div");
   $div.textContent = `${user} ...skriver`;
   $div.style.color = "#aaaaaa";
@@ -217,7 +215,7 @@ socket.on("typingToClient", (user) => {
 
   setTimeout(() => {
     $div.remove();
-  }, 500);
+  }, 1000);
 });
 function showMessage(message) {
   let r = Math.round(Math.random() * 255) - 100;
@@ -241,7 +239,6 @@ $form.addEventListener("submit", (e) => {
   const userName = $userName.value === "" ? "Anonymouse" : $userName.value;
   const userId = socket.id;
   activeUser = userName;
-  //console.log(userName);
   const message = $messIn.value;
   const room = $roomIn.value;
   if (message === "") return;
@@ -341,7 +338,6 @@ let passworsSet = false;
 $createRoomBut.addEventListener("click", () => {
   if ($passCheck.checked) {
     const password = prompt("Choose password");
-    console.log(password);
     if (password === "") return;
     let roomName = "Room " + activeRooms.length;
     socket.emit("sendRoomToServer", socket.id, roomName, password);
@@ -360,7 +356,6 @@ function deleteRoom(roomName, id) {
 function joinRoom(name) {
   let newRoom;
   const room = $roomIn.value;
-  console.log(name);
   currentRoom = room;
   if (name !== undefined) $currentRoom.textContent = "DM to " + name;
   else {
@@ -380,11 +375,9 @@ window.addEventListener("load", () => {
   const userName = $userName.value;
   const userId = socket.id;
   const room = $roomIn.value === "" ? "General" : $roomIn.value;
-  //const room = $roomIn.value;
   socket.emit("getRooms", room);
   socket.emit("getUsers", room);
   socket.emit("getMessages", room);
   socket.emit("logIn", userName);
   joinRoom();
 });
-//console.log(isUserCreated);
