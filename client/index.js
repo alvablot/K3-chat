@@ -109,6 +109,9 @@ function uppdateUsers(users) {
         linkText = element.name + " ❌";
         $a.href = "#";
         $a.addEventListener("click", (e) => {
+          $userName.readOnly = false;
+          $userName.value = "";
+          $userName.focus();
           removeUser(element.id);
           isUserCreated = false;
           socket.emit("remove", element.id);
